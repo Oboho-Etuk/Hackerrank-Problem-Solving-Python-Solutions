@@ -1,0 +1,34 @@
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import re
+import sys
+
+def split(text):
+    return str(re.sub(r'([A-Z])', r' \1', text).lower()).strip()
+
+def splitMethod(text):
+    return str(re.sub(r'([A-Z])', r' \1', text).lower()).strip().rstrip("()")
+
+def combineMethod(text):
+    return '{}()'.format(''.join(word.capitalize() if i > 0 else word for i, word in enumerate(re.findall(r'\w+', text))))
+
+def combineVar(text):
+    return ''.join(word.capitalize() if i > 0 else word for i, word in enumerate(re.findall(r'\w+', text)))
+
+def combineClass(text):
+    return ''.join(word.capitalize() for i, word in enumerate(re.findall(r'\w+', text)))
+
+for sample in sys.stdin:
+    sample = sample.rstrip()
+    operation, content, string = sample.split(";")
+    if operation == "C":
+        if content == "M":
+            print(combineMethod(string))
+        elif content == "C":
+            print(combineClass(string))
+        else:
+            print(combineVar(string))
+    else:
+        if content == "M":
+            print(splitMethod(string))
+        else:
+            print(split(string))
